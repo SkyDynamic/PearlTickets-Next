@@ -6,7 +6,7 @@ import net.minecraft.entity.projectile.thrown.EnderPearlEntity;
 import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
 import net.minecraft.server.world.ChunkTicketType;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.server.world.ChunkLevelType;
+// import net.minecraft.server.world.ChunkLevelType;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -29,10 +29,13 @@ public abstract class EnderPearlEntityMixin extends ThrownItemEntity
 		super(entityType, world);
 	}
 
-	private boolean sync = true;
+	private final boolean sync = true;
+	@Unique
 	private Vec3d realPos = null;
+	@Unique
 	private Vec3d realVelocity = null;
-	private WorldChunk realChunk = null;
+	@Unique
+	private boolean enableLoading = false;
 
 	@Unique
 	private Vec3d GetEnderPearlPos() {
@@ -59,7 +62,7 @@ public abstract class EnderPearlEntityMixin extends ThrownItemEntity
 			if (this.sync) {
 				this.realPos = currPos;
 				this.realVelocity = currVelocity;
-				this.realChunk = currChunk;
+				this.enableLoading = true;
 			}
 
 			Vec3d nextPos = this.realPos.add(this.realVelocity);
@@ -69,9 +72,16 @@ public abstract class EnderPearlEntityMixin extends ThrownItemEntity
 
 			// GetEnderPearlOwner().sendMessage(Text.of("珍珠下一Tick区块: " + nextChunk.getPos().toString()));
 
-			if (nextChunk.getLevelType() != ChunkLevelType.ENTITY_TICKING) {
+			if (enableLoading) {
+				((ServerWorld) world).getChunkManager().addTicket(ENDER_PEARL_TICKET, currChunk.getPos(), 2, currChunk.getPos());
 				((ServerWorld) world).getChunkManager().addTicket(ENDER_PEARL_TICKET, nextChunk.getPos(), 2, nextChunk.getPos());
 			}
 		}
+	}
+
+	@Inject(method = "onCollision", at = @At(value = "RETURN"))
+	private void StopChunkLoading(CallbackInfo ci)
+	{
+		this.enableLoading = false;
 	}
 }
