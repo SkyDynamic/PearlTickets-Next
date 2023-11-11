@@ -1,8 +1,6 @@
 package dev.skydynamic.pearltickets.mixin;
 
-import dev.skydynamic.pearltickets.PearlTicketNext;
-
-import net.minecraft.entity.Entity;
+import dev.skydynamic.pearltickets.config.Config;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.projectile.thrown.EnderPearlEntity;
 import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
@@ -22,10 +20,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.Comparator;
 
 @Mixin(EnderPearlEntity.class)
-public abstract class EnderPearlEntityMixin extends ThrownItemEntity {
+public abstract class EnderPearlEntityMixin extends ThrownItemEntity
+{
 	private static final ChunkTicketType<ChunkPos> ENDER_PEARL_TICKET = ChunkTicketType.create("block_loader", Comparator.comparingLong(ChunkPos::toLong), 2);
 
-	protected EnderPearlEntityMixin(EntityType<? extends ThrownItemEntity> entityType, World world) {
+	protected EnderPearlEntityMixin(EntityType<? extends ThrownItemEntity> entityType, World world)
+	{
 		super(entityType, world);
 	}
 
@@ -33,11 +33,6 @@ public abstract class EnderPearlEntityMixin extends ThrownItemEntity {
 	private Vec3d realPos = null;
 	private Vec3d realVelocity = null;
 	private WorldChunk realChunk = null;
-
-	@Unique
-	private Entity GetEnderPearlOwner() {
-		return this.getOwner();
-	}
 
 	@Unique
 	private Vec3d GetEnderPearlPos() {
@@ -50,10 +45,12 @@ public abstract class EnderPearlEntityMixin extends ThrownItemEntity {
 	}
 
 	@Inject(method = "tick", at = @At(value = "HEAD"))
-	private void ChunkLoading(CallbackInfo ci) {
+	private void ChunkLoading(CallbackInfo ci)
+	{
 		World world = this.getEntityWorld();
 
-		if (world instanceof ServerWorld && PearlTicketNext.modStatus.debug) {
+		if (world instanceof ServerWorld && Config.INSTANCE.containsTrue())
+		{
 			Vec3d currPos = GetEnderPearlPos().add(Vec3d.ZERO);
 			Vec3d currVelocity = GetEnderPearlVelocity().add(Vec3d.ZERO);
 
@@ -69,6 +66,8 @@ public abstract class EnderPearlEntityMixin extends ThrownItemEntity {
 			// Vec3d nextVelocity = this.realVelocity.multiply(0.99F).subtract(0, this.getGravity(), 0);
 
 			WorldChunk nextChunk = world.getChunk((int) Math.floor(nextPos.x / 16), (int) Math.floor(nextPos.z / 16));
+
+			// GetEnderPearlOwner().sendMessage(Text.of("珍珠下一Tick区块: " + nextChunk.getPos().toString()));
 
 			if (nextChunk.getLevelType() != ChunkLevelType.ENTITY_TICKING) {
 				((ServerWorld) world).getChunkManager().addTicket(ENDER_PEARL_TICKET, nextChunk.getPos(), 2, nextChunk.getPos());
