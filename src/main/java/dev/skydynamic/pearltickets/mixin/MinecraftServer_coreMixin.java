@@ -1,5 +1,6 @@
 package dev.skydynamic.pearltickets.mixin;
 
+import dev.skydynamic.pearltickets.utils.Translate;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.WorldSavePath;
 import org.spongepowered.asm.mixin.Mixin;
@@ -22,6 +23,7 @@ public abstract class MinecraftServer_coreMixin {
     private void onServerInit(CallbackInfo ci) {
         var configPath = getSavePath(WorldSavePath.ROOT).resolve("PearlTicket-Next.json");
         Config.INSTANCE.setConfigPath(configPath).load();
+        Translate.handleResourceReload(Config.INSTANCE.getLangString());
     }
 
 }

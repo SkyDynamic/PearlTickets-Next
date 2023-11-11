@@ -4,26 +4,36 @@ import java.util.Objects;
 
 public class ConfigStorage {
     @Ignore
-    public static final ConfigStorage DEFAULT = new ConfigStorage(false);
+    public static final ConfigStorage DEFAULT = new ConfigStorage(false, "zh_cn");
     Boolean enable;
+    String lang;
 
-    public ConfigStorage(Boolean enable) {
+    public ConfigStorage(Boolean enable, String lang)
+    {
         this.enable = enable;
+        this.lang = lang;
     }
 
-    public Boolean getPermissions() {
+    public Boolean getEnable()
+    {
         return enable;
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof ConfigStorage that)) return false;
-        return Objects.equals(getPermissions(), that.getPermissions());
+    public String getLang()
+    {
+        return lang;
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(getPermissions());
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (!(o instanceof ConfigStorage that)) return false;
+        return Objects.equals(getEnable(), that.getEnable());
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(getEnable(), getLang());
     }
 }

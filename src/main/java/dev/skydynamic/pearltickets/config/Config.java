@@ -10,7 +10,8 @@ import java.nio.file.Path;
 import java.util.Arrays;
 
 //@SuppressWarnings("all")
-public class Config {
+public class Config
+{
     public static Config INSTANCE = new Config();
 
     private final Object lock = new Object();
@@ -18,24 +19,37 @@ public class Config {
     private ConfigStorage configStorage;
     private final Gson gson = new GsonBuilder().serializeNulls().create();
 
-    public Config setConfigPath(Path path) {
+    public Config setConfigPath(Path path)
+    {
         this.configPath = path;
         return this;
     }
 
-    public boolean containsTrue(){
-        synchronized (lock){
+    public boolean containsTrue()
+    {
+        synchronized (lock)
+        {
             return configStorage.enable;
         }
     }
 
-    private void saveModifiedConfig(ConfigStorage c) {
-        synchronized (lock){
+    public String getLangString()
+    {
+        synchronized (lock)
+        {
+            return configStorage.lang;
+        }
+    }
+
+    private void saveModifiedConfig(ConfigStorage c)
+    {
+        synchronized (lock)
+        {
             try {
                 if (configPath.toFile().exists()) configPath.toFile().delete();
                 if (!configPath.toFile().exists()) configPath.toFile().createNewFile();
                 var writer = new FileWriter(configPath.toFile());
-                gson.toJson(fixFields(c, ConfigStorage.DEFAULT), writer);
+                gson.toJson(fixFields(c), writer);
                 writer.close();
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -43,15 +57,17 @@ public class Config {
         }
     }
 
-    public void load() {
-        synchronized (lock){
+    public void load()
+    {
+        synchronized (lock)
+        {
             try {
                 if (!configPath.toFile().exists()) {
                     saveModifiedConfig(ConfigStorage.DEFAULT);
                 }
                 var reader = new FileReader(configPath.toFile());
                 var result = gson.fromJson(reader, ConfigStorage.class);
-                this.configStorage = fixFields(result, ConfigStorage.DEFAULT);
+                this.configStorage = fixFields(result);
                 reader.close();
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -59,34 +75,50 @@ public class Config {
         }
     }
 
-    public void setEnableValue(boolean value){
-        synchronized (lock){
+    public void setEnableValue(boolean value)
+    {
+        synchronized (lock)
+        {
             configStorage.enable = value;
-            saveModifiedConfig(fixFields(configStorage, ConfigStorage.DEFAULT));
+            saveModifiedConfig(fixFields(configStorage));
         }
     }
 
-    private <T> T fixFields(T t, T defaultVal) {
-        if (t == null){
+    public void setLangValue(String lang)
+    {
+        synchronized (lock)
+        {
+            configStorage.lang = lang;
+            saveModifiedConfig(fixFields(configStorage));
+        }
+    }
+
+    private <T> T fixFields(T t)
+    {
+        if (t == null)
+        {
             throw new NullPointerException();
         }
-        if (t == defaultVal){
+        if (t == ConfigStorage.DEFAULT)
+        {
             return t;
         }
-        try {
+        try
+        {
             var clazz = t.getClass();
             for (Field declaredField : clazz.getDeclaredFields()) {
                 if (Arrays.stream(declaredField.getDeclaredAnnotations()).anyMatch(it -> it.annotationType() == Ignore.class))
                     continue;
                 declaredField.setAccessible(true);
                 var value = declaredField.get(t);
-                var dv = declaredField.get(defaultVal);
+                var dv = declaredField.get(ConfigStorage.DEFAULT);
                 if (value == null) {
                     declaredField.set(t, dv);
                 }
             }
             return t;
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             throw new RuntimeException(e);
         }
     }
