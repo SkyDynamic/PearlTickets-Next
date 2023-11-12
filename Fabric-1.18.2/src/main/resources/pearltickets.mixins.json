@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "package": "dev.skydynamic.pearltickets.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "EnderPearlEntityMixin",
+    "MinecraftServer_coreMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+	}
+}

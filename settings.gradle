@@ -8,3 +8,9 @@ pluginManagement {
 		gradlePluginPortal()
 	}
 }
+
+rootProject.name = 'PearlTickets-Next'
+include 'Fabric-1.20'
+include 'Fabric-1.19.4'
+include 'Fabric-1.18.2'
+include 'Fabric-1.17.1'
