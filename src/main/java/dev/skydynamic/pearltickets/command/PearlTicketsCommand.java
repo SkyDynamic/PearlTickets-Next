@@ -6,13 +6,13 @@ import net.minecraft.server.command.ServerCommandSource;
 import dev.skydynamic.pearltickets.config.Config;
 import net.minecraft.text.Text;
 
-import static dev.skydynamic.pearltickets.utils.Translate.supportLanguage;
 import static net.minecraft.server.command.CommandManager.argument;
 import static net.minecraft.server.command.CommandManager.literal;
 
 import dev.skydynamic.pearltickets.utils.LangArgumentType;
 import dev.skydynamic.pearltickets.utils.Translate;
 
+import static dev.skydynamic.pearltickets.utils.Translate.supportLanguage;
 import static dev.skydynamic.pearltickets.utils.Translate.tr;
 
 public class PearlTicketsCommand

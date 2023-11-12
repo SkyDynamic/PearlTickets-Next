@@ -11,21 +11,26 @@ import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 import java.util.*;
 
-public class Translate {
+public class Translate
+{
 
     private static Map<String, String> translateMap = new HashMap<>();
 
     public static final Collection<String> supportLanguage = List.of("zh_cn", "en_us");
 
-    public static Map<String, String> getTranslationFromResourcePath(String lang) {
+    public static Map<String, String> getTranslationFromResourcePath(String lang)
+    {
             InputStream langFile = Translate.class.getClassLoader().getResourceAsStream("assets/pearltickets/lang/%s.json".formatted(lang));
-            if (langFile == null) {
+            if (langFile == null)
+            {
                 return Collections.emptyMap();
             }
             String jsonData;
-            try {
+            try
+            {
                 jsonData = IOUtils.toString(langFile, StandardCharsets.UTF_8);
-            } catch (IOException e) {
+            } catch (IOException e)
+            {
                 return Collections.emptyMap();
             }
             Gson gson = new GsonBuilder().setLenient().create();
@@ -37,13 +42,15 @@ public class Translate {
         translateMap = getTranslationFromResourcePath(lang);
     }
 
-    public static String translate(String key, Object... args){
+    public static String translate(String key, Object... args)
+    {
         String fmt = translateMap.getOrDefault(key,key);
         if (!translateMap.containsKey(key))return key;
         return MessageFormat.format(fmt, args);
     }
 
-    public static String tr(String k, Object... o){
+    public static String tr(String k, Object... o)
+    {
         return translate(k,o);
     }
 

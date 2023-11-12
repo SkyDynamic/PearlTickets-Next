@@ -45,13 +45,15 @@ public class Config
     {
         synchronized (lock)
         {
-            try {
+            try
+            {
                 if (configPath.toFile().exists()) configPath.toFile().delete();
                 if (!configPath.toFile().exists()) configPath.toFile().createNewFile();
                 var writer = new FileWriter(configPath.toFile());
                 gson.toJson(fixFields(c), writer);
                 writer.close();
-            } catch (Exception e) {
+            } catch (Exception e)
+            {
                 throw new RuntimeException(e);
             }
         }

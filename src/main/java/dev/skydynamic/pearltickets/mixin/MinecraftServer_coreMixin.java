@@ -14,7 +14,8 @@ import java.nio.file.Path;
 import dev.skydynamic.pearltickets.config.Config;
 
 @Mixin(MinecraftServer.class)
-public abstract class MinecraftServer_coreMixin {
+public abstract class MinecraftServer_coreMixin
+{
 
     @Shadow
     public abstract Path getSavePath(WorldSavePath worldSavePath);

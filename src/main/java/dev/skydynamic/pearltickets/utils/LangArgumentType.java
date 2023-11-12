@@ -10,7 +10,8 @@ import java.util.Collection;
 import java.util.concurrent.CompletableFuture;
 
 public class LangArgumentType implements ArgumentType<String> {
-    public static LangArgumentType lang() {
+    public static LangArgumentType lang()
+    {
         return new LangArgumentType();
     }
 
@@ -20,7 +21,8 @@ public class LangArgumentType implements ArgumentType<String> {
     }
 
     @Override
-    public String parse(StringReader reader) {
+    public String parse(StringReader reader)
+    {
         int argBeginning = reader.getCursor();
         if (!reader.canRead())
         {
