@@ -42,7 +42,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build with Gradle
-        run: ./gradlew buildAndGather
+        run: ./gradlew build
 
       - name: Upload JAR file
         uses: actions/upload-artifact@v3
