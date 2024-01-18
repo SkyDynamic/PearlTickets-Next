@@ -1,0 +1,6 @@
+{
+  "pearltickets.already_setting_enable": "珍珠自加载已经设置为§a§l %s §r了",
+  "pearltickets.success_setting_enable": "珍珠自加载设置为: §a§l %s",
+  "pearltickets.change_lang": "成功将语言更改为§a§l %s",
+  "pearltickets.lang_not_exist": "§4§l该语言翻译不存在"
+}
