@@ -1,0 +1,6 @@
+{
+  "pearltickets.already_setting_enable": "PearlTickets has been changed to§a§l %s",
+  "pearltickets.success_setting_enable": "PearlTickets changed to§a§l %s",
+  "pearltickets.change_lang": "Success change the lang to§a§l %s",
+  "pearltickets.lang_not_exist": "§4§lThe language translation does not exist"
+}
