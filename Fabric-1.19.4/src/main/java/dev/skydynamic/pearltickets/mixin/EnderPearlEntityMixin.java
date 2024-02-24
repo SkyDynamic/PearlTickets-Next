@@ -22,6 +22,7 @@ import java.util.Comparator;
 @Mixin(EnderPearlEntity.class)
 public abstract class EnderPearlEntityMixin extends ThrownItemEntity
 {
+	@Unique
 	private static final ChunkTicketType<ChunkPos> ENDER_PEARL_TICKET = ChunkTicketType.create("block_loader", Comparator.comparingLong(ChunkPos::toLong), 2);
 
 	protected EnderPearlEntityMixin(EntityType<? extends ThrownItemEntity> entityType, World world)
@@ -29,6 +30,7 @@ public abstract class EnderPearlEntityMixin extends ThrownItemEntity
 		super(entityType, world);
 	}
 
+	@Unique
 	private final boolean sync = true;
 	@Unique
 	private Vec3d realPos = null;
