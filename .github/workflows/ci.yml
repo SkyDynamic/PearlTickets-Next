@@ -4,7 +4,11 @@ on:
   push:
     branches: [ 'main' ]
     paths:
-      - src/**
+      - Fabricc-1.17.1
+      - Fabricc-1.18.2
+      - Fabricc-1.19.2
+      - Fabricc-1.19.4
+      - Fabricc-1.20
       - build.gradle
       - gradle.properties
       - settings.gradle
