@@ -6,10 +6,8 @@ import net.minecraft.server.command.ServerCommandSource;
 import dev.skydynamic.pearltickets.config.Config;
 import net.minecraft.text.Text;
 
-import static net.minecraft.server.command.CommandManager.argument;
 import static net.minecraft.server.command.CommandManager.literal;
 
-import dev.skydynamic.pearltickets.utils.LangArgumentType;
 import dev.skydynamic.pearltickets.utils.Translate;
 
 import static dev.skydynamic.pearltickets.utils.Translate.supportLanguage;
@@ -22,9 +20,10 @@ public class PearlTicketsCommand
         .requires(src -> src.hasPermissionLevel(3))
         .then(literal("on").executes(it -> execute(it.getSource(), true)))
         .then(literal("off").executes(it -> execute(it.getSource(), false)))
-        .then(literal("lang").then(argument("lang", LangArgumentType.lang())
-            .executes(it -> changeLang(it.getSource(), LangArgumentType.getLangString(it, "lang")
-            ))));
+        .then(literal("lang")
+            .then(literal("zh_cn").executes(it -> changeLang(it.getSource(), "zh_cn")))
+            .then(literal("en_us").executes(it -> changeLang(it.getSource(), "en_us")))
+        );
 
     private static int changeLang(ServerCommandSource commandSource, String lang)
     {

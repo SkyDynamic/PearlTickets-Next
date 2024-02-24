@@ -22,7 +22,7 @@ import java.util.Comparator;
 @Mixin(EnderPearlEntity.class)
 public abstract class EnderPearlEntityMixin extends ThrownItemEntity
 {
-	private static final ChunkTicketType<ChunkPos> ENDER_PEARL_TICKET = ChunkTicketType.create("block_loader", Comparator.comparingLong(ChunkPos::toLong), 2);
+	private static final ChunkTicketType<ChunkPos> ENDER_PEARL_TICKET = ChunkTicketType.create("block_loader", Comparator.comparingLong(ChunkPos::toLong), 20);
 
 	protected EnderPearlEntityMixin(EntityType<? extends ThrownItemEntity> entityType, World world)
 	{
@@ -73,8 +73,8 @@ public abstract class EnderPearlEntityMixin extends ThrownItemEntity
 			// GetEnderPearlOwner().sendMessage(Text.of("珍珠下一Tick区块: " + nextChunk.getPos().toString()));
 
 			if (enableLoading) {
-				((ServerWorld) world).getChunkManager().addTicket(ENDER_PEARL_TICKET, currChunk.getPos(), 2, currChunk.getPos());
-				((ServerWorld) world).getChunkManager().addTicket(ENDER_PEARL_TICKET, nextChunk.getPos(), 2, nextChunk.getPos());
+				((ServerWorld) world).getChunkManager().addTicket(ENDER_PEARL_TICKET, currChunk.getPos(), 5, currChunk.getPos());
+				((ServerWorld) world).getChunkManager().addTicket(ENDER_PEARL_TICKET, nextChunk.getPos(), 5, nextChunk.getPos());
 			}
 		}
 	}
